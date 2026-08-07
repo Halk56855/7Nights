@@ -45,6 +45,7 @@ jobs:
           sudo modprobe erofs f2fs
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p security
           echo -n "${{ secrets.PLATFORM_KEY_PK8 }}" | base64 --decode > security/platform.pk8
           echo -n "${{ secrets.PLATFORM_KEY_PEM }}" | base64 --decode > security/platform.x509.pem
 
@@ -68,7 +69,7 @@ jobs:
       - name: Extract source firmware
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/extract_fw.sh --ignore-target
+          ./scripts/extract_fw.sh --ignore-source
 
       - name: Download target firmware
         run: |
@@ -78,7 +79,7 @@ jobs:
       - name: Extract target firmware
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/extract_fw.sh --ignore-source
+          ./scripts/extract_fw.sh --ignore-target
 
       - name: Build ROM
         run: |
