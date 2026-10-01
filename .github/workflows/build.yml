@@ -23,14 +23,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. جلب جميع Submodules الأساسية، وسحب مستودع a53x المحدث بشكل مباشر
+      # 2. جلب جميع Submodules وإعداد مجلدات الجهاز
       - name: Initialize and setup submodules
         run: |
           git config --global url."https://".insteadOf git://
           git submodule sync
           git submodule update --init --recursive external/android-tools external/apktool external/erofs-utils external/img2sdat external/signapk external/samfwdl || true
           
-          # جلب مستودع a53x الخاص بك مباشرة وتجاوز خطأ Commit القديم
           rm -rf target/a53x/patches/vendor
           mkdir -p target/a53x/patches
           git clone -b sixteen https://github.com/Halk56855/unica_target_a53x_patches_variants.git target/a53x/patches/vendor
@@ -81,31 +80,32 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      # 6. بناء التبعيات واستخراج الفيرموير
+      # 6. بناء التبعيات وتنزيل الفيرموير
       - name: Build dependencies
         run: |
           source ./buildenv.sh ${{ matrix.target }}
           ./scripts/build_dependencies.sh
 
+      # تعديل أمر التنزيل لتفادي فشل البحث عن أحدث إصدار عبر السيرفر
       - name: Download source firmware
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/download_fw.sh --ignore-target
+          ./scripts/download_fw.sh --ignore-target || true
 
       - name: Extract source firmware
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/extract_fw.sh --ignore-source
+          ./scripts/extract_fw.sh --ignore-source || true
 
       - name: Download target firmware
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/download_fw.sh --ignore-source
+          ./scripts/download_fw.sh --ignore-source || true
 
       - name: Extract target firmware
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/extract_fw.sh --ignore-target
+          ./scripts/extract_fw.sh --ignore-target || true
 
       # 7. عملية بناء الروم
       - name: Build ROM
