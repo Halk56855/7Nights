@@ -2,27 +2,33 @@
 	path = external/android-tools
 	url = https://github.com/salvogiangri/android-tools.git
 	ignore = dirty
+
 [submodule "external/apktool"]
 	path = external/apktool
 	url = https://github.com/iBotPeaches/Apktool.git
 	ignore = dirty
+
 [submodule "external/erofs-utils"]
 	path = external/erofs-utils
 	url = https://github.com/sekaiacg/erofs-utils.git
 	ignore = dirty
+
 [submodule "external/img2sdat"]
 	path = external/img2sdat
 	url = https://github.com/salvogiangri/img2sdat.git
 	ignore = dirty
+
 [submodule "external/signapk"]
 	path = external/signapk
 	url = https://github.com/salvogiangri/signapk.git
 	ignore = dirty
+
 [submodule "target/a53x/patches/vendor"]
 	path = target/a53x/patches/vendor
 	url = https://github.com/majaahh/unica_target_a53x_patches_variants.git
-branch = sixteen
+	branch = sixteen
 	ignore = dirty
+
 [submodule "external/samfwdl"]
 	path = external/samfwdl
 	url = https://github.com/ducthoe/samfwdl.git
