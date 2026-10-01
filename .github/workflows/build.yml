@@ -23,14 +23,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. تحديث رابط الـ Submodule إلى مستودعك الخاص ومزامنته
+      # 2. تحديث الـ Submodules بأمان دون إجبار المستودعات الفرعية على خيار --remote
       - name: Initialize submodules with custom repository URL
         run: |
           git config --global url."https://".insteadOf git://
           git config submodule.target/a53x/patches/vendor.url https://github.com/Halk56855/unica_target_a53x_patches_variants.git
           git config submodule.target/a53x/patches/vendor.branch sixteen
           git submodule sync
-          git submodule update --init --recursive --remote
+          git submodule update --init --recursive
 
       # 3. تفريغ مساحة القرص الصلب
       - name: Free disk space (1/3)
