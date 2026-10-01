@@ -1,0 +1,4 @@
+git rm -f target/a53x/patches/vendor
+rm -rf .git/modules/target/a53x/patches/vendor
+git commit -m "fix: remove broken unused submodule"
+git push
