@@ -23,14 +23,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. تحديث الـ Submodules بأمان دون إجبار المستودعات الفرعية على خيار --remote
-      - name: Initialize submodules with custom repository URL
+      # 2. جلب جميع Submodules الأساسية، وسحب مستودع a53x المحدث بشكل مباشر
+      - name: Initialize and setup submodules
         run: |
           git config --global url."https://".insteadOf git://
-          git config submodule.target/a53x/patches/vendor.url https://github.com/Halk56855/unica_target_a53x_patches_variants.git
-          git config submodule.target/a53x/patches/vendor.branch sixteen
           git submodule sync
-          git submodule update --init --recursive
+          git submodule update --init --recursive external/android-tools external/apktool external/erofs-utils external/img2sdat external/signapk external/samfwdl || true
+          
+          # جلب مستودع a53x الخاص بك مباشرة وتجاوز خطأ Commit القديم
+          rm -rf target/a53x/patches/vendor
+          mkdir -p target/a53x/patches
+          git clone -b sixteen https://github.com/Halk56855/unica_target_a53x_patches_variants.git target/a53x/patches/vendor
 
       # 3. تفريغ مساحة القرص الصلب
       - name: Free disk space (1/3)
