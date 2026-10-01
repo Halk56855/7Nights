@@ -25,7 +25,7 @@
 
 [submodule "target/a53x/patches/vendor"]
 	path = target/a53x/patches/vendor
-	url = https://github.com/majaahh/unica_target_a53x_patches_variants.git
+	url = https://github.com/Halk56855/unica_target_a53x_patches_variants.git
 	branch = sixteen
 	ignore = dirty
 
